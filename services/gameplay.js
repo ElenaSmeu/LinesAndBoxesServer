@@ -70,8 +70,8 @@ function movePlayer(row, column, latestboard, oldPlayerScore, player) {
     Object.keys(latestboard).forEach((key) => {
         lastKey = key;
         if (key.length == 2) {
-            if (latestboard[key] == 1 && key == player1Input) {
-                newLatest[key] = 0;
+            if (latestboard[key] == 0 && key == player1Input) {
+                newLatest[key] = 1;
             }
         }
     });
