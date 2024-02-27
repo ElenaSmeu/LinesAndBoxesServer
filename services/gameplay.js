@@ -66,20 +66,23 @@ function checkForCompletedBoxes(currentBoard) {
 
 function movePlayer(row, column, latestboard, oldPlayerScore, player) {
     player1Input = row +""+column;
+    const newLatest = latestboard;
     Object.keys(latestboard).forEach((key) => {
         lastKey = key;
         if (key.length == 2) {
             if (latestboard[key] == 1 && key == player1Input) {
-                latestboard[key] = 0;
+                newLatest[key] = 0;
             }
         }
     });
-    const boxedMarket = checkForCompletedBoxes(latestboard);
+    const boxedMarket = checkForCompletedBoxes(newLatest);
     const playerBoxValue = player == 1 ? 1 : 2;
-    console.log(boxedMarket);
+    console.log("boxed",boxedMarket);
     boxedMarket.forEach(boxKey => {
-        latestboard[boxKey] = playerBoxValue;
+        if(boxKey !== null) {
+        newLatest[boxKey] = playerBoxValue;
         oldPlayerScore = oldPlayerScore + 1 
+        }
     })
 
     return {newBoard: latestboard, newPlayerScore: oldPlayerScore}
