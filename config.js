@@ -1,6 +1,5 @@
 const config = {
     db: {
-        max_user_connections = 10,
         connectionLimit: 99,
         host: "sql11.freesqldatabase.com",
         user: "sql11686941",
