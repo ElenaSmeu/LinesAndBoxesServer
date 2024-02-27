@@ -4,7 +4,7 @@ const gameboards = require('../services/gameboards');
 
 router.get('/', async function(req, res, next) {
     try {
-        res.json(await gameboards.gameboards());
+        res.json(await gameboards.getLatestBoardState());
     } catch (err) {
         console.error('Error was', err.message);
         next(err);
