@@ -29,15 +29,13 @@ function defaultState() {
     return myDict;
 }
 
-function checkBoxes(val, current, player) {
+function checkBoxes(val, current) {
     const coordinates = generateBoxCoordinates();
     for (let index = 0; index < coordinates.length; index++) {
         const box = coordinates[index];
-        const filteredItems = Object.entries(current).filter(([key, value]) => box.includes(key) && value === 1);
+        const filteredItems = Object.entries(current).filter(([key, value]) => box.includes(key) && value === 0);
         const takenLines = filteredItems.length;
         if (takenLines === 4 && box.includes(val)) {
-            console.log(`Last line in box ${index + 1} taken by player ${player}`);
-
             const res = box.every(ele => coordinates[index].includes(ele));
             if (res) {
                 return index + 1; // Return the key of the box
@@ -45,20 +43,45 @@ function checkBoxes(val, current, player) {
         }
     }
 }
-
-function movePlayer(row, column, latestboard, oldPlayerScore) {
-    player1Input = row + column;
-    for (const key in latestboard) {
-        lastKey = key;
-        if (key === player1Input && latestboard[key] === 0) {
-            latestboard[key] = 1;
-          const boxCheck = checkBoxes(key, latestboard, currentPlayer);
-          if (boxCheck !== null) {
-            latestboard[boxCheck.toString()] = 1;
-            oldPlayerScore += 1;
-          }
+function checkForCompletedBoxes(currentBoard) {
+    const boxes = [{boxKey: "1", lookFor: ["11", "22", "31", "21"]}
+            ,{boxKey: "2",lookFor: ["12", "23", "32", "22"]}
+            ,{boxKey: "3",lookFor: ["31", "42", "51", "41"]}
+            ,{boxKey: "4",lookFor:  ["32", "43", "52", "42"]}
+        ]
+    const leftToCheck = boxes.filter(b => currentBoard[b.boxKey] == 0);
+    console.log("leftTocheck", leftToCheck);
+    const result = leftToCheck.map(box => 
+        {const linesChecks = box.lookFor.filter(line => currentBoard[line] === 0).length
+            console.log(linesChecks);
+            if (linesChecks == 4) {
+              return box.boxKey
+            }
+            else return null
         }
-      }
+    ).filter((v) => v !== null || v!== undefined);
+    console.log("res", result);
+    return result;
+}
+
+function movePlayer(row, column, latestboard, oldPlayerScore, player) {
+    player1Input = row +""+column;
+    Object.keys(latestboard).forEach((key) => {
+        lastKey = key;
+        if (key.length == 2) {
+            if (latestboard[key] == 1 && key == player1Input) {
+                latestboard[key] = 0;
+            }
+        }
+    });
+    const boxedMarket = checkForCompletedBoxes(latestboard);
+    const playerBoxValue = player == 1 ? 1 : 2;
+    console.log(boxedMarket);
+    boxedMarket.forEach(boxKey => {
+        latestboard[boxKey] = playerBoxValue;
+        oldPlayerScore = oldPlayerScore + 1 
+    })
+
     return {newBoard: latestboard, newPlayerScore: oldPlayerScore}
 }
 
