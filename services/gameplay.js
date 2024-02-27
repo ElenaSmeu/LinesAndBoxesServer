@@ -35,7 +35,6 @@ function checkBoxes(val, current, player) {
         const box = coordinates[index];
         const filteredItems = Object.entries(current).filter(([key, value]) => box.includes(key) && value === 1);
         const takenLines = filteredItems.length;
-
         if (takenLines === 4 && box.includes(val)) {
             console.log(`Last line in box ${index + 1} taken by player ${player}`);
 

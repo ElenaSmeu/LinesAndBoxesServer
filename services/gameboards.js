@@ -3,14 +3,13 @@ const config = require('../config');
 
 async function getLatestBoardState() {
     const latest = await db.query(`SELECT * FROM ${config.db.database}.boardgames ORDER BY createdAt DESC LIMIT 1;`)
-    return latest;
+    return latest.pop();
 }
 
 async function insertEntry(gameboardState) {
     createdAt = new Date();
     createdAtString = createdAt.toString()
     gameState = JSON.stringify(gameboardState.gameboard)
-    console.log( `('${gameState}', '${createdAtString}', ${gameboardState.player1}, ${gameboardState.player2}, ${gameboardState.createdBy})`)
     const result = await db.query(
         `INSERT INTO boardgames (gameboard, createdAt, player1, player2, createdBy) VALUES ('${gameState}', '${createdAtString}', ${gameboardState.player1}, ${gameboardState.player2}, ${gameboardState.createdBy})`
     );
