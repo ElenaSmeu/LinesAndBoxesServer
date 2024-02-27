@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 app.use("/latestGameboard", gameboardsRouter);
 app.use("/resetGame", resetRouter);
 app.use("/makeMove", makeMoveRouter);
-app.use("./score", score);
+app.use("/score", score);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
