@@ -46,6 +46,22 @@ function checkBoxes(val, current, player) {
     }
 }
 
+function movePlayer(row, column, latestboard, oldPlayerScore) {
+    player1Input = row + column;
+    for (const key in latestboard) {
+        lastKey = key;
+        if (key === player1Input && latestboard[key] === 0) {
+            latestboard[key] = 1;
+          const boxCheck = checkBoxes(key, latestboard, currentPlayer);
+          if (boxCheck !== null) {
+            latestboard[boxCheck.toString()] = 1;
+            oldPlayerScore += 1;
+          }
+        }
+      }
+    return {newBoard: latestboard, newPlayerScore: oldPlayerScore}
+}
+
 module.exports = {
-    defaultState, checkBoxes
+    defaultState, checkBoxes, movePlayer
 }

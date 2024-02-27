@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const gameboardsRouter = require('./routes/gameboard');
-const resetRouter = require('./routes/reset');
-
+const resetRouter = require('./routes/resetGame');
+const makeMoveRouter = require('./routes/makeMove');
 app.use(express.json());
 app.use(express.urlencoded({
     extended:true,
@@ -14,7 +14,8 @@ app.get("/", (req, res) => {
 })
 
 app.use("/latestGameboard", gameboardsRouter);
-app.use("/restGame", resetRouter);
+app.use("/resetGame", resetRouter);
+app.use("/makeMove", makeMoveRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
