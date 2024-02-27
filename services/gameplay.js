@@ -52,14 +52,14 @@ function checkForCompletedBoxes(currentBoard) {
     const leftToCheck = boxes.filter(b => currentBoard[b.boxKey] == 0);
     console.log("leftTocheck", leftToCheck);
     const result = leftToCheck.map(box => 
-        {const linesChecks = box.lookFor.filter(line => currentBoard[line] === 0).length
+        {const linesChecks = box.lookFor.filter(line => currentBoard[line] === 1)
             console.log(linesChecks);
-            if (linesChecks == 4) {
+            if (linesChecks.length == 4) {
               return box.boxKey
             }
-            else return null
+            else return "-1"
         }
-    ).filter((v) => v !== null || v!== undefined);
+    ).filter((v) => v !== "-1");
     console.log("res", result);
     return result;
 }
