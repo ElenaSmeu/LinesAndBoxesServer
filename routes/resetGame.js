@@ -16,11 +16,10 @@ router.get('/', async function(req, res, next) {
         coordinates["23"] = 1
         coordinates["32"] = 1
         coordinates["41"] = 1
+        coordinates["42"] = 1
         coordinates["43"] = 1
         coordinates["51"] = 1
         coordinates["52"] = 1
-        coordinates["2"] = 1
-        coordinates["1"] = 1
         theDefault = {player1: player1Score, player2: player2Score, createdBy: null, gameboard : coordinates}
         res.json(await gameboards.insertEntry(theDefault));
     } catch (err) {

@@ -9,9 +9,19 @@ router.get('/', async function(req, res, next) {
         const testMoveRow = req.query.row;
         const testMoveCol = req.query.col;
         console.log(player, testMoveCol, testMoveRow);
-        latestboard = await gameboards.getLatestBoardState();
-        console.log(latestboard);
-        res.json({player, testMoveCol, testMoveRow, latestboard});
+        const latestboard = await gameboards.getLatestBoardState();
+        const currentPlayerScore = (player == 1 ? latestboard.player1 : latestboard.player2)
+        let currentBoard = latestboard;
+        const newStuff = gameplay.movePlayer(testMoveRow, testMoveCol, currentBoard.gameboard, currentPlayerScore);
+        currentBoard.gameboard = newStuff.newBoard;
+        if (player == 1) {
+            currentBoard.player1 = newStuff.newPlayerScore;
+            currentBoard.createdBy = 1;
+        } else if (player == 2) {
+            currentBoard.player2 = newStuff.newPlayerScore;
+            currentBoard.createdBy = 2;
+        }
+        res.json({currentBoard});
         // gameboards.getLatestBoardState().then(
         //     (latestBoard) => {
         //         if (latestBoard) {
